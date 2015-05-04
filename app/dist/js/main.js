@@ -111,13 +111,11 @@ var ListItem = React.createClass({displayName: 'ListItem',
 	render: function() {
 
 		return (
-			React.DOM.div(null, 
 				React.DOM.li(null, 
 					React.DOM.a({href: this.props.url, target: "_blank"}, 
 						this.props.title
 					)
 				)
-			)
 		);
 	}
 });

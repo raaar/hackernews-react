@@ -13,12 +13,6 @@ gulp.task('browserify', function() {
 });
 
 
-gulp.task('sass', function () {
-    gulp.src('./app/src/scss/*.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('./app/dist/css'));
-});
-
 
 
 // launch browser in a port
@@ -51,12 +45,23 @@ gulp.task('html', function () {
     .pipe(connect.reload());
 });
 
+
+
+gulp.task('sass', function () {
+    gulp.src('./app/src/scss/*.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('./app/dist/css'))
+        .pipe(connect.reload());
+});
+
+
+
 // watch files for live reload
 gulp.task('watch', function() {
     gulp.watch('app/dist/js/*.js', ['js']);
     gulp.watch('app/index.html', ['html']);
     gulp.watch('app/src/js/**/*.js', ['browserify']);
-    gulp.watch('app/src/scss/*.scss', ['sass']);
+    gulp.watch('app/src/scss/style.scss', ['sass']);
 });
 
 gulp.task('default', ['browserify']);
