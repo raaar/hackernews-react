@@ -1,0 +1,30 @@
+{
+  "name": "hackernews-react",
+  "version": "0.0.0",
+  "authors": [
+    "Raflondon"
+  ],
+  "main": "app/dist/css/style.css",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "react",
+    "firebase",
+    "scss",
+    "responsive"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "normalize.css": "~3.0.3"
+  }
+}
+

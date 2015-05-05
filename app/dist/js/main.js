@@ -19,7 +19,7 @@ var App = React.createClass({displayName: 'App',
 				stories.push(snap.val());
 
 				scope.setState({
-					stories: stories
+					stories: stories,
 				})
 			})
 		})
@@ -50,24 +50,60 @@ var App = React.createClass({displayName: 'App',
 
 	},
 
+	clearStoreage: function(e) {
+		localStorage.clear();
+		console.log('STORAGE CLEARED');
+	},
+
+	addFavourite: function(item) {
+
+		var foo = []
+		var oldFavourites = this.state.favourites;
+		oldFavourites.push(item);
+
+		var newFavourites = _.uniq(oldFavourites, 'title');
+
+		this.setState({
+			favourites: newFavourites
+		})
+
+		localStorage.setItem('favouritesStorage', JSON.stringify(newFavourites))
+	},
+
 	componentDidMount: function() {
 		this.loadData();
+
+		var loadSavedData = JSON.parse(localStorage.favouritesStorage);
+		this.setState({
+			favourites: loadSavedData
+		})
 	},
 
 	getInitialState: function() {
 		return { 
 			stories: [],
-			topIds: []
+			topIds: [],
+			favourites: []
 		}
 	},
 
 	render: function() {
 		return (
 			React.DOM.div(null, 
+
+				React.DOM.button({onClick: this.clearStoreage}, "Clear storage"), 
 				React.DOM.div({className: "list container"}, 
 					
-					List({stories: this.state.stories, topIds: this.state.topIds})					
+					List({	stories: this.state.stories, 
+							topIds: this.state.topIds, 
+							addFavourite: this.addFavourite}), 	
 
+							React.DOM.hr(null), 
+
+					List({	stories: this.state.favourites, 
+						topIds: this.state.topIds, 
+						addFavourite: this.addFavourite})		
+										
 				)
 			)
 		);
@@ -87,8 +123,9 @@ var List = React.createClass({displayName: 'List',
 		var storyItem = this.props.stories.map(function (item) {
 			return ListItem({
 					title: item.title, 
-					url: item.url})
-		})
+					url: item.url, 
+					addFavourite: this.props.addFavourite})
+		}.bind(this))
 
 		return (
 			React.DOM.div(null, 
@@ -101,12 +138,18 @@ var List = React.createClass({displayName: 'List',
 });
 
 module.exports = List;
+
 },{"./ListItem":3,"React":148}],3:[function(require,module,exports){
 /** @jsx React.DOM */
 var React 				= require('React');
 
 var ListItem = React.createClass({displayName: 'ListItem',
 
+	save: function() {
+		this.props.addFavourite({
+			title: this.props.title
+		})
+	},
 
 	render: function() {
 
@@ -114,13 +157,16 @@ var ListItem = React.createClass({displayName: 'ListItem',
 				React.DOM.li(null, 
 					React.DOM.a({href: this.props.url, target: "_blank"}, 
 						this.props.title
-					)
+					), 
+
+					React.DOM.button({onClick: this.save}, "Add")
 				)
 		);
 	}
 });
 
 module.exports = ListItem;
+
 },{"React":148}],4:[function(require,module,exports){
 /** @jsx React.DOM */
 var React 			= require('React'),

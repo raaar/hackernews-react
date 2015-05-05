@@ -18,7 +18,7 @@ var App = React.createClass({
 				stories.push(snap.val());
 
 				scope.setState({
-					stories: stories
+					stories: stories,
 				})
 			})
 		})
@@ -49,24 +49,60 @@ var App = React.createClass({
 
 	},
 
+	clearStoreage: function(e) {
+		localStorage.clear();
+		console.log('STORAGE CLEARED');
+	},
+
+	addFavourite: function(item) {
+
+		var foo = []
+		var oldFavourites = this.state.favourites;
+		oldFavourites.push(item);
+
+		var newFavourites = _.uniq(oldFavourites, 'title');
+
+		this.setState({
+			favourites: newFavourites
+		})
+
+		localStorage.setItem('favouritesStorage', JSON.stringify(newFavourites))
+	},
+
 	componentDidMount: function() {
 		this.loadData();
+
+		var loadSavedData = JSON.parse(localStorage.favouritesStorage);
+		this.setState({
+			favourites: loadSavedData
+		})
 	},
 
 	getInitialState: function() {
 		return { 
 			stories: [],
-			topIds: []
+			topIds: [],
+			favourites: []
 		}
 	},
 
 	render: function() {
 		return (
 			<div>
+
+				<button onClick={this.clearStoreage}>Clear storage</button>
 				<div className="list container">
 					
-					<List  stories={this.state.stories}  topIds={this.state.topIds}/>					
+					<List  	stories={this.state.stories}  
+							topIds={this.state.topIds}
+							addFavourite={this.addFavourite}/>	
 
+							<hr/>
+
+					<List  	stories={this.state.favourites}  
+						topIds={this.state.topIds}
+						addFavourite={this.addFavourite}/>		
+										
 				</div>
 			</div>
 		);

@@ -9,8 +9,9 @@ var List = React.createClass({
 		var storyItem = this.props.stories.map(function (item) {
 			return <ListItem 
 					title={item.title}
-					url={item.url}/>
-		})
+					url={item.url}
+					addFavourite={this.props.addFavourite}/>
+		}.bind(this))
 
 		return (
 			<div>
