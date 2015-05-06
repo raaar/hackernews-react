@@ -6,33 +6,6 @@ var React 				= require('React'),
 	Navigation			= require('./Navigation');
 
 
-var Content = React.createClass({
-	render: function(){
-		return(
-			<div>
-
- 			{this.props.currentTab === 'topstories' ?
-                <div className="mike">
-                	<h1>top Stories</h1>
-                    <img src="http://s.mlkshk.com/r/104TN" />
-                </div>
-                :null
-            }
-
- 			{this.props.currentTab === 'favourites' ?
-                <div className="mike">
-                	<h1>top Stories</h1>
-                    <img src="http://s.mlkshk.com/r/104TN" />
-                </div>
-                :null
-            }
-
-
-			</div>
-			)
-	}
-})
-
 var App = React.createClass({
 
 	loadStory: function(ids){
@@ -66,7 +39,6 @@ var App = React.createClass({
 
 			topIds = _.take(items, 10);
 
-
 			this.setState({
 				topIds: topIds
 			})
@@ -82,9 +54,13 @@ var App = React.createClass({
 		console.log('STORAGE CLEARED');
 	},
 
-	addFavourite: function(item) {
+	switchTab: function(pageName) {
+		this.setState({
+			currentTab: pageName
+		})
+	},
 
-		var foo = []
+	addFavourite: function(item) {
 		var oldFavourites = this.state.favourites;
 		oldFavourites.push(item);
 
@@ -95,6 +71,18 @@ var App = React.createClass({
 		})
 
 		localStorage.setItem('favouritesStorage', JSON.stringify(newFavourites))
+	},
+
+	removeFavourite: function(item) {
+
+		var arrayFavourites = this.state.favourites;
+		var newFavourites = _.remove(arrayFavourites, item)
+
+		this.setState({
+			favourites: arrayFavourites
+		})
+
+		localStorage.setItem('favouritesStorage', JSON.stringify(arrayFavourites))		
 	},
 
 	componentDidMount: function() {
@@ -115,12 +103,6 @@ var App = React.createClass({
 		}
 	},
 
-	switchTab: function(pageName) {
-		this.setState({
-			currentTab: pageName
-		})
-	},
-
 	render: function() {
 
 		return (
@@ -132,14 +114,18 @@ var App = React.createClass({
 		 			{this.state.currentTab === 'topstories' ?
 							<List  	stories={this.state.stories}  
 								topIds={this.state.topIds}
-								addFavourite={this.addFavourite}/>	
+								currentTab={this.state.currentTab}
+								addFavourite={this.addFavourite}
+								removeFavourite={this.removeFavourite}/>	
 		                :null
 		            }
 
 		 			{this.state.currentTab === 'favourites' ?
 							<List  	stories={this.state.favourites}  
 								topIds={this.state.topIds}
-								addFavourite={this.addFavourite}/>	
+								currentTab={this.state.currentTab}
+								addFavourite={this.addFavourite}
+								removeFavourite={this.removeFavourite}/>	
 		                :null
 		            }
 

@@ -353,17 +353,19 @@ nav {
     padding: 0; }
     nav ul li {
       width: 50%;
-      float: left;
-      background: #b8b8b8; }
+      float: left; }
       nav ul li:first-child {
         border-right: 1px solid white; }
       nav ul li a {
         width: 100%;
         text-align: center;
         display: block;
-        padding: 2rem 0; }
-      nav ul li:hover {
-        background: lightblue; }
+        padding: 2rem 0;
+        background: #b8b8b8; }
+        nav ul li a:hover {
+          background: lightblue; }
+        nav ul li a.active {
+          background: lightblue; }
 
 .container {
   width: 100%;

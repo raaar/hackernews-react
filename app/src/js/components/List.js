@@ -5,12 +5,13 @@ var React 				= require('React'),
 
 var List = React.createClass({
 	render: function() {
-
 		var storyItem = this.props.stories.map(function (item) {
 			return <ListItem 
 					title={item.title}
 					url={item.url}
-					addFavourite={this.props.addFavourite}/>
+					currentTab = {this.props.currentTab}
+					addFavourite={this.props.addFavourite}
+					removeFavourite={this.props.removeFavourite}/>
 		}.bind(this))
 
 		return (

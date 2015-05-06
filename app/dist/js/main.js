@@ -7,33 +7,6 @@ var React 				= require('React'),
 	Navigation			= require('./Navigation');
 
 
-var Content = React.createClass({displayName: 'Content',
-	render: function(){
-		return(
-			React.DOM.div(null, 
-
- 			this.props.currentTab === 'topstories' ?
-                React.DOM.div({className: "mike"}, 
-                	React.DOM.h1(null, "top Stories"), 
-                    React.DOM.img({src: "http://s.mlkshk.com/r/104TN"})
-                )
-                :null, 
-            
-
- 			this.props.currentTab === 'favourites' ?
-                React.DOM.div({className: "mike"}, 
-                	React.DOM.h1(null, "top Stories"), 
-                    React.DOM.img({src: "http://s.mlkshk.com/r/104TN"})
-                )
-                :null
-            
-
-
-			)
-			)
-	}
-})
-
 var App = React.createClass({displayName: 'App',
 
 	loadStory: function(ids){
@@ -67,7 +40,6 @@ var App = React.createClass({displayName: 'App',
 
 			topIds = _.take(items, 10);
 
-
 			this.setState({
 				topIds: topIds
 			})
@@ -83,9 +55,13 @@ var App = React.createClass({displayName: 'App',
 		console.log('STORAGE CLEARED');
 	},
 
-	addFavourite: function(item) {
+	switchTab: function(pageName) {
+		this.setState({
+			currentTab: pageName
+		})
+	},
 
-		var foo = []
+	addFavourite: function(item) {
 		var oldFavourites = this.state.favourites;
 		oldFavourites.push(item);
 
@@ -96,6 +72,18 @@ var App = React.createClass({displayName: 'App',
 		})
 
 		localStorage.setItem('favouritesStorage', JSON.stringify(newFavourites))
+	},
+
+	removeFavourite: function(item) {
+
+		var arrayFavourites = this.state.favourites;
+		var newFavourites = _.remove(arrayFavourites, item)
+
+		this.setState({
+			favourites: arrayFavourites
+		})
+
+		localStorage.setItem('favouritesStorage', JSON.stringify(arrayFavourites))		
 	},
 
 	componentDidMount: function() {
@@ -116,12 +104,6 @@ var App = React.createClass({displayName: 'App',
 		}
 	},
 
-	switchTab: function(pageName) {
-		this.setState({
-			currentTab: pageName
-		})
-	},
-
 	render: function() {
 
 		return (
@@ -133,14 +115,18 @@ var App = React.createClass({displayName: 'App',
 		 			this.state.currentTab === 'topstories' ?
 							List({	stories: this.state.stories, 
 								topIds: this.state.topIds, 
-								addFavourite: this.addFavourite})	
+								currentTab: this.state.currentTab, 
+								addFavourite: this.addFavourite, 
+								removeFavourite: this.removeFavourite})	
 		                :null, 
 		            
 
 		 			this.state.currentTab === 'favourites' ?
 							List({	stories: this.state.favourites, 
 								topIds: this.state.topIds, 
-								addFavourite: this.addFavourite})	
+								currentTab: this.state.currentTab, 
+								addFavourite: this.addFavourite, 
+								removeFavourite: this.removeFavourite})	
 		                :null
 		            
 
@@ -162,12 +148,13 @@ var React 				= require('React'),
 
 var List = React.createClass({displayName: 'List',
 	render: function() {
-
 		var storyItem = this.props.stories.map(function (item) {
 			return ListItem({
 					title: item.title, 
 					url: item.url, 
-					addFavourite: this.props.addFavourite})
+					currentTab: this.props.currentTab, 
+					addFavourite: this.props.addFavourite, 
+					removeFavourite: this.props.removeFavourite})
 		}.bind(this))
 
 		return (
@@ -190,8 +177,15 @@ var ListItem = React.createClass({displayName: 'ListItem',
 
 	save: function() {
 		this.props.addFavourite({
-			title: this.props.title
+			title: this.props.title,
+			url: this.props.url
 		})
+	},
+
+	remove: function() {
+		this.props.removeFavourite({
+			title: this.props.title
+		});
 	},
 
 	render: function() {
@@ -201,8 +195,15 @@ var ListItem = React.createClass({displayName: 'ListItem',
 					React.DOM.a({href: this.props.url, target: "_blank"}, 
 						this.props.title
 					), 
-
+					
+					this.props.currentTab === 'topstories' 
+					? 
 					React.DOM.button({onClick: this.save}, "Add")
+					:
+					React.DOM.button({onClick: this.remove}, "Remove")					 
+					
+					
+
 				)
 		);
 	}
@@ -228,12 +229,23 @@ var Navigation = React.createClass({displayName: 'Navigation',
 
 	render: function() {
 
+
+
 		return (
 			React.DOM.div(null, 
 			    React.DOM.nav(null, 
 			      React.DOM.ul(null, 
-			        React.DOM.li(null, React.DOM.a({href: "#", onClick: this.openTopStoriesPage}, "Top")), 
-			        React.DOM.li(null, React.DOM.a({href: "#", onClick: this.openFavouritesPage}, "Saved"))
+			        React.DOM.li(null, 
+			        	React.DOM.a({	href: "#", 
+			        		className: this.props.currentTab === 'topstories' ? 'active' : null, 
+			        		onClick: this.openTopStoriesPage}, "Top")
+			        ), 
+
+			        React.DOM.li(null, 
+			        	React.DOM.a({	href: "#", 
+			        		className: this.props.currentTab === 'favourites' ? 'active' : null, 
+			        		onClick: this.openFavouritesPage}, "Saved")
+			        )
 			      )
 			    )
 			)

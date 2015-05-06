@@ -42,7 +42,6 @@ nav {
 		li {
 			width: 50%;
 			float: left;
-			background: rgb(184, 184, 184);
 
 			&:first-child{
   				border-right: 1px solid white;
@@ -52,10 +51,16 @@ nav {
 				text-align: center;
 				display: block;
 				padding: 2rem 0;
-			}
+				background: rgb(184, 184, 184);
 
-			&:hover {
-				background: lightblue;
+				&:hover {
+					background: lightblue;
+				}
+
+				&.active {
+					background: lightblue;
+				}
+
 			}
 		}
 	}

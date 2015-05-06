@@ -15,12 +15,23 @@ var Navigation = React.createClass({
 
 	render: function() {
 
+
+
 		return (
 			<div>
 			    <nav>
 			      <ul>
-			        <li><a href="#" onClick={this.openTopStoriesPage}>Top</a></li>
-			        <li><a href="#" onClick={this.openFavouritesPage}>Saved</a></li>
+			        <li>
+			        	<a 	href="#" 
+			        		className={this.props.currentTab === 'topstories' ? 'active' : null}
+			        		onClick={this.openTopStoriesPage}>Top</a>
+			        </li>
+
+			        <li>
+			        	<a 	href="#" 
+			        		className={this.props.currentTab === 'favourites' ? 'active' : null}
+			        		onClick={this.openFavouritesPage}>Saved</a>
+			        </li>
 			      </ul>
 			    </nav>
 			</div>
