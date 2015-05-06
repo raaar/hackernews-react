@@ -2,8 +2,36 @@
 var React 				= require('React'),
 	_			  		= require('lodash'),
 	Firebase 	  		= require('firebase'),
-	List 				= require('./List');
+	List 				= require('./List'),
+	Navigation			= require('./Navigation');
 
+
+var Content = React.createClass({
+	render: function(){
+		return(
+			<div>
+
+ 			{this.props.currentTab === 'topstories' ?
+                <div className="mike">
+                	<h1>top Stories</h1>
+                    <img src="http://s.mlkshk.com/r/104TN" />
+                </div>
+                :null
+            }
+
+ 			{this.props.currentTab === 'favourites' ?
+                <div className="mike">
+                	<h1>top Stories</h1>
+                    <img src="http://s.mlkshk.com/r/104TN" />
+                </div>
+                :null
+            }
+
+
+			</div>
+			)
+	}
+})
 
 var App = React.createClass({
 
@@ -82,28 +110,43 @@ var App = React.createClass({
 		return { 
 			stories: [],
 			topIds: [],
-			favourites: []
+			favourites: [],
+			currentTab: 'topstories'
 		}
 	},
 
+	switchTab: function(pageName) {
+		this.setState({
+			currentTab: pageName
+		})
+	},
+
 	render: function() {
+
 		return (
 			<div>
 
-				<button onClick={this.clearStoreage}>Clear storage</button>
 				<div className="list container">
-					
-					<List  	stories={this.state.stories}  
-							topIds={this.state.topIds}
-							addFavourite={this.addFavourite}/>	
+					<button onClick={this.clearStoreage}>Clear storage</button>
 
-							<hr/>
+		 			{this.state.currentTab === 'topstories' ?
+							<List  	stories={this.state.stories}  
+								topIds={this.state.topIds}
+								addFavourite={this.addFavourite}/>	
+		                :null
+		            }
 
-					<List  	stories={this.state.favourites}  
-						topIds={this.state.topIds}
-						addFavourite={this.addFavourite}/>		
-										
-				</div>
+		 			{this.state.currentTab === 'favourites' ?
+							<List  	stories={this.state.favourites}  
+								topIds={this.state.topIds}
+								addFavourite={this.addFavourite}/>	
+		                :null
+		            }
+
+		        </div>
+
+				<Navigation switchView={this.switchTab} currentTab={this.state.currentTab}/>
+
 			</div>
 		);
 	}
