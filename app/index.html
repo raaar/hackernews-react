@@ -16,7 +16,7 @@
     <div  class="wrapper">
 
 
-      
+
       <div id="item" class="item">
         <div class="item-inner"></div>
       </div>
@@ -61,16 +61,15 @@
         var divs = document.querySelectorAll('.item-inner');
         [].forEach.call(divs, function(item) {
 
+                  var   min = 0,
+                        max = 0,
+                        moveX = 0, 
+                        startX = 0, 
+                        added = 0, 
+                        speed, 
+                        friction = 0;
 
-            var   min = 0,
-                  max = 0,
-                  moveX = 0, 
-                  startX = 0, 
-                  added = 0, 
-                  speed, 
-                  friction = 0;
-
-                  hammer = new Hammer(item, {dragLockToAxis: true, dragBlockHorizontal: true});
+                  var  hammer = new Hammer(item, {dragLockToAxis: true, dragBlockHorizontal: true});
 
                   var transformStyle = prefix() + 'Transform';
                   var transitionStyle = prefix() + 'Transition';
@@ -79,24 +78,20 @@
                       item.style[transitionStyle] = 'none';
                   });
 
-
                   hammer.on("panleft panright", function(event){
                         moveX = startX + event.deltaX;
-                        console.log(moveX)
+                        friction = startX > min ? min/1.5 : startX;
 
-                        if (moveX <= max) {
-                            item.style[transformStyle] = 'translateX(' + moveX + 'px)';
-                        }
-                        
                         if (moveX < min) {
                             friction = startX > min ? min/1.5 : startX;
                             moveX = friction + (event.deltaX/1.3);
-                        }
+                        }                          
 
-                        if (moveX <= max) {
-                            item.style[transformStyle] = 'translateX(' + moveX + 'px)';
+                        item.style[transformStyle] = 'translateX(' + moveX + 'px)';
+
+                        if( Math.floor((event.distance / event.target.clientWidth) * 100) > 60 ) {
+                          console.log('trigger callback')
                         }
-                    
                   });
 
                   hammer.on('panend', function(e) {
@@ -123,18 +118,18 @@
 
 
 
-function prefix() {
+        function prefix() {
 
-    var styles = window.getComputedStyle(document.documentElement, ''),
-        pre = (Array.prototype.slice
-            .call(styles)
-            .join('')
-            .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
-        )[1];
+            var styles = window.getComputedStyle(document.documentElement, ''),
+                pre = (Array.prototype.slice
+                    .call(styles)
+                    .join('')
+                    .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+                )[1];
 
-    return pre[0].toUpperCase() + pre.substr(1);
+            return pre[0].toUpperCase() + pre.substr(1);
 
-}
+        }
 
     </script>
 
