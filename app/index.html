@@ -12,12 +12,147 @@
 		<h1>Hacker News</h1>
    	</header>
 
+    <div  class="wrapper">
+      <div id="item" class="item">
+        <div class="item-inner"></div>
+      </div>
+
+
+      <div id="item" class="item">
+        <div class="item-inner"></div>
+      </div>
+
+
+      <div id="item" class="item">
+        <div class="item-inner"></div>
+      </div>
+
+
+    </div>
+
     <div id="app"></div>
+
 
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
     <script src="/dist/js/main.js"></script>
+
+    <script src="/dist/js/hammer.js"></script>
+    <script src="/dist/js/jquery.hammer.js"></script>
+
+
+
+    <script type="text/javascript">
+
+
+    var   min = 0,
+          max = 0,
+          moveX = 0, 
+          startX = 0, 
+          added = 0, 
+          speed, 
+          friction = 0;
+
+          item = document.querySelector('.item-inner'),
+          hammer = new Hammer(item, {dragLockToAxis: true, dragBlockHorizontal: true});
+
+
+var transformStyle = prefix() + 'Transform';
+var transitionStyle = prefix() + 'Transition';
+
+
+
+
+    jQuery(document).ready(function() {
+
+
+      var foo = document.getElementsByClassName('item-inner');
+      console.log(foo.length)
+
+var divs = document.querySelectorAll('.item-inner');
+
+[].forEach.call(divs, function(div) {
+  // do whatever
+  div.style.color = "red";
+});
+
+
+
+
+            hammer.on('panstart', function() {
+                item.style[transitionStyle] = 'none';
+            });
+
+
+            hammer.on("panleft panright", function(event){
+                  moveX = startX + event.deltaX;
+                  console.log(moveX)
+
+                  if (moveX <= max) {
+                      item.style[transformStyle] = 'translateX(' + moveX + 'px)';
+                  }
+                  
+                  if (moveX < min) {
+                      friction = startX > min ? min/1.5 : startX;
+                      moveX = friction + (event.deltaX/3);
+                  }
+
+                  if (moveX <= max) {
+                      item.style[transformStyle] = 'translateX(' + moveX + 'px)';
+                  }
+              
+            });
+
+
+
+
+
+            hammer.on('panend', function(e) {
+
+                speed = .2 / (Math.abs(e.velocityX) + 1);
+
+                added += e.deltaX;
+
+                if (added < min/2) {
+                    startX = min;
+                }
+                else if (added > Math.abs(min/2)) {
+                    startX = max;
+                }
+
+                item.style[transitionStyle] = 'all ' + speed + 's ease-in-out';
+                item.style[transformStyle] = 'translateX(' + startX + 'px)';
+
+                added = 0;
+
+            });
+
+
+
+    });
+
+
+
+
+
+
+function prefix() {
+
+    var styles = window.getComputedStyle(document.documentElement, ''),
+        pre = (Array.prototype.slice
+            .call(styles)
+            .join('')
+            .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+        )[1];
+
+    return pre[0].toUpperCase() + pre.substr(1);
+
+}
+
+
+
+    </script>
 
    </body>
 </html>

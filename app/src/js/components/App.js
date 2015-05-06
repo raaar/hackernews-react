@@ -107,9 +107,7 @@ var App = React.createClass({
 
 		return (
 			<div>
-
 				<div className="list container">
-					<button onClick={this.clearStoreage}>Clear storage</button>
 
 		 			{this.state.currentTab === 'topstories' ?
 							<List  	stories={this.state.stories}  
@@ -130,9 +128,7 @@ var App = React.createClass({
 		            }
 
 		        </div>
-
 				<Navigation switchView={this.switchTab} currentTab={this.state.currentTab}/>
-
 			</div>
 		);
 	}

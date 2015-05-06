@@ -30,8 +30,6 @@ var ListItem = React.createClass({
 					:
 					<button onClick={this.remove}>Remove</button>					 
 					}
-					
-
 				</li>
 		);
 	}

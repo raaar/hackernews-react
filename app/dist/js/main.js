@@ -108,9 +108,7 @@ var App = React.createClass({displayName: 'App',
 
 		return (
 			React.DOM.div(null, 
-
 				React.DOM.div({className: "list container"}, 
-					React.DOM.button({onClick: this.clearStoreage}, "Clear storage"), 
 
 		 			this.state.currentTab === 'topstories' ?
 							List({	stories: this.state.stories, 
@@ -131,9 +129,7 @@ var App = React.createClass({displayName: 'App',
 		            
 
 		        ), 
-
 				Navigation({switchView: this.switchTab, currentTab: this.state.currentTab})
-
 			)
 		);
 	}
@@ -202,8 +198,6 @@ var ListItem = React.createClass({displayName: 'ListItem',
 					:
 					React.DOM.button({onClick: this.remove}, "Remove")					 
 					
-					
-
 				)
 		);
 	}
