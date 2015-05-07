@@ -74,7 +74,7 @@ var App = React.createClass({
 	},
 
 	removeFavourite: function(item) {
-
+		console.log(item)
 		var arrayFavourites = this.state.favourites;
 		var newFavourites = _.remove(arrayFavourites, item)
 
