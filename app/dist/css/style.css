@@ -317,23 +317,6 @@ table {
 td, th {
   padding: 0; }
 
-.wrapper {
-  width: 100%;
-  max-width: 800px;
-  margin: 5rem auto 0; }
-
-.item {
-  width: 100%;
-  height: 100px;
-  background: salmon;
-  margin-bottom: 1px;
-  overflow: hidden; }
-
-.item-inner {
-  width: 100%;
-  height: 100px;
-  background: black; }
-
 html {
   font-size: 62.5%;
   box-sizing: border-box; }
@@ -363,6 +346,7 @@ a {
 
 nav {
   position: fixed;
+  z-index: 50;
   bottom: 0;
   width: 100%; }
   nav ul {
@@ -394,6 +378,43 @@ nav {
   padding: 0; }
   .list ul li {
     list-style: none;
-    padding: 1.6rem;
-    background: lightgrey;
-    border: 1px solid white; }
+    background: green;
+    border: 1px solid white;
+    overflow: hidden;
+    position: relative; }
+    .list ul li:after {
+      content: "S";
+      font-size: 2rem;
+      color: white;
+      position: absolute;
+      right: 3rem;
+      top: 50%; }
+
+.item {
+  width: 100%;
+  height: 100px;
+  background: salmon;
+  margin-bottom: 1px;
+  overflow: hidden;
+  margin-bottom: 1px; }
+
+.item-inner {
+  width: 100%;
+  height: 100px;
+  background: lightgrey;
+  position: relative;
+  z-index: 30; }
+  .item-inner.saved {
+    background: lightgreen; }
+  .item-inner h3 {
+    margin: 0;
+    padding: 2rem; }
+  .item-inner .link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+
+.hide {
+  display: none; }
