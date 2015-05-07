@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
-var React 			= require('React'),
+var React 			= require('React');
 	App			= require('./components/App');
 
 
 
-React.renderComponent(
+React.render(
 	  <App />,
   document.getElementById('app')
 );

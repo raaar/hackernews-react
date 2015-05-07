@@ -19,10 +19,9 @@
     "gulp-open": "^0.2.8",
     "gulp-react": "^1.0.1",
     "gulp-sass": "^1.3.3",
-    "hammerjs": "^2.0.4",
     "lodash": "^3.8.0",
-    "react": "^0.11.1",
+    "react": "^0.13.2",
     "react-localstorage": "^0.2.2",
-    "reactify": "^0.14.0"
+    "reactify": "^1.1.0"
   }
 }
