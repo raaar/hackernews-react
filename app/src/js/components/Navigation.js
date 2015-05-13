@@ -24,13 +24,17 @@ var Navigation = React.createClass({
 			        <li>
 			        	<a 	href="#" 
 			        		className={this.props.currentTab === 'topstories' ? 'active' : null}
-			        		onClick={this.openTopStoriesPage}>Top</a>
+			        		onClick={this.openTopStoriesPage}>
+			        			<i className=" icon-list-bullet"></i>
+			        		</a>
 			        </li>
 
 			        <li>
-			        	<a 	href="#" 
+			        	<a 	href="#"
 			        		className={this.props.currentTab === 'favourites' ? 'active' : null}
-			        		onClick={this.openFavouritesPage}>Saved</a>
+			        		onClick={this.openFavouritesPage}>
+			        			<i className="icon-heart"></i>
+			        		</a>
 			        </li>
 			      </ul>
 			    </nav>

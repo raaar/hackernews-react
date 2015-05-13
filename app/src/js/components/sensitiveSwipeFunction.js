@@ -1,35 +1,7 @@
-/** @jsx React.DOM */
-var React 				= require('React');
-
-var ListItem = React.createClass({
-
-	save: function() {
-		this.props.addFavourite({
-			title: this.props.title,
-			url: this.props.url
-		})
-	},
-
-	remove: function() {
-		/* 
-			The swipe event passes the title of the item
-			we wish to remove.
-		*/
-		console.log(this.props.title)
-		this.props.removeFavourite({
-			title: this.props.title
-		});		
-	},
-
-	componentWillMount: function() {
-		React.initializeTouchEvents(true)
-	},
-
 	detect: function(e) {
 		var scope = this;
 		var item = this.refs.test.getDOMNode()
 		var link = this.refs.itemLink.getDOMNode()
-
 		var  hammer = new Hammer(item, {dragLockToAxis: true, dragBlockHorizontal: true});
 
                   var   min = 0,
@@ -40,7 +12,7 @@ var ListItem = React.createClass({
                         speed, 
                         friction = 0;
 
-                  var  hammer = new Hammer(item, {dragLockToAxis: true, dragBlockHorizontal: true});
+                  //var  hammer = new Hammer(item, {dragLockToAxis: true, dragBlockHorizontal: true});
 
                   var transformStyle = prefix() + 'Transform';
                   var transitionStyle = prefix() + 'Transition';
@@ -52,6 +24,7 @@ var ListItem = React.createClass({
                   });
 
     	hammer.on("panleft panright", function(event){
+        console.log(event)
             moveX = startX + event.deltaX;
             friction = startX > min ? min/1.5 : startX;
 
@@ -115,22 +88,4 @@ var ListItem = React.createClass({
 
 
 
-	},
-
-	render: function() {
-
-		return (
-				<li className={this.props.currentTab}>
-
-    				<div ref="test" className="item-inner" onTouchStart={this.detect}>
-    					<h3>{this.props.title}</h3>
-    					<a ref="itemLink" href={this.props.url} target="_blank" ></a> 
-    				</div>
-					
-
-				</li>
-		);
-	}
-});
-
-module.exports = ListItem;
+	}, /* detect */

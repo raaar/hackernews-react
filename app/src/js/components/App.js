@@ -16,8 +16,9 @@ var App = React.createClass({
 		ids.forEach(function (id){
 			var currentItem = new Firebase (newsItem + id);
 			currentItem.once('value', function(snap){
-				stories.push(snap.val());
 
+				stories.push(snap.val());
+			
 				scope.setState({
 					stories: stories,
 				})
@@ -47,11 +48,6 @@ var App = React.createClass({
 
 		}.bind(this))
 
-	},
-
-	clearStoreage: function(e) {
-		localStorage.clear();
-		console.log('STORAGE CLEARED');
 	},
 
 	switchTab: function(pageName) {
