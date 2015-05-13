@@ -4,15 +4,16 @@ var gulp = require('gulp'),
     browserify = require('gulp-browserify'),
     concat = require('gulp-concat'),
     port = process.env.port || 3031,
-    sass = require('gulp-sass');
-
+    sass = require('gulp-sass'),
+    uglyfy = require('gulp-uglify');
 
 gulp.task('browserify', function() {
   gulp.src('./app/src/js/main.js')
       .pipe(browserify({ transform: 'reactify' }))
       .pipe(gulp.dest('./app/dist/js'));
-});
 
+      //.pipe(uglyfy());
+});
 
 // launch browser in a port
 gulp.task('open', function(){
@@ -44,16 +45,12 @@ gulp.task('html', function () {
     .pipe(connect.reload());
 });
 
-
-
 gulp.task('sass', function () {
     gulp.src('./app/src/scss/*.scss')
         .pipe(sass())
         .pipe(gulp.dest('./app/dist/css'))
         .pipe(connect.reload());
 });
-
-
 
 // watch files for live reload
 gulp.task('watch', function() {
