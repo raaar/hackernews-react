@@ -38,7 +38,7 @@ var App = React.createClass({
 				items.push(itemSnap.val());
 			})
 
-			topIds = _.take(items, 30);
+			topIds = _.take(items, 35);
 
 			this.setState({
 				topIds: topIds
