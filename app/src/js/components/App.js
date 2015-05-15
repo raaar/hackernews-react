@@ -30,7 +30,7 @@ var App = React.createClass({
 		var fb ='https://hacker-news.firebaseio.com/v0/';
 		var topstories =  new Firebase( fb + 'topstories');
 		
-		topstories.on('value', function (snap){
+		topstories.once('value', function (snap){
 			var items = [];
 			var topIds = [];
 
